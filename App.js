@@ -1,58 +1,48 @@
-import React, { Component } from 'react';
+import React from 'react'
 
-class App extends Component {
-
-  localColor;
-  localNo;
+class App extends React.Component {
 
   constructor() {
-    super();
-
-    this.localColor = 'text-primary';
-    this.localNo = 0;
-    
+    super()
     this.state = {
-      no: this.localNo,
-      numColor: this.localColor
-    };
+      number: 0,
+      color: 'text-primary'
+    }
   }
 
   setColor() {
-    this.localColor = (this.localNo === 0) ? 'text-primary' : (this.localNo > 0) ? 'text-success' : 'text-danger';
+    this.setState({
+      color: (this.state.number > 0) ? 'text-success' : (this.state.number < 0) ? 'text-danger' : 'text-primary'
+    })
   }
 
   increase() {
-    this.localNo++;
-    this.setColor();
-    this.setState({ no: this.localNo, numColor: this.localColor });
+    this.setState({
+      number: this.state.number + 1
+    }, () => this.setColor())
   }
 
   decrease() {
-    this.localNo--;
-    this.setColor();
-    this.setState({ no: this.localNo, numColor: this.localColor });
+    this.setState({
+      number: this.state.number - 1
+    }, () => this.setColor())
   }
 
   render() {
     return (
       <div className="container">
-        <div className="jumbotron py-3 my-4">
-          <p className="display-4 text-center mb-0">Number Operations</p>
-        </div>
+        <p className="display-4 my-3">Number Operations</p>
+        <hr />
 
-        <div className="d-flex justify-content-center align-items-center">
-          <button className="btn btn-primary" onClick={() => this.decrease()}>
-            <i className="fas fa-minus"></i>
-          </button>
-          <span className={'mx-3 lead ' + this.state.numColor}>{this.state.no}</span>
-          <button className="btn btn-primary" onClick={() => this.increase()}>
-            <i className="fas fa-plus"></i>
-          </button>
+        <div className="d-flex justify-content-start align-items-center">
+          <button className="btn btn-primary bi bi-dash-lg" onClick={() => this.decrease()}></button>
+          <span className={this.state.color + ' lead mx-2'}>{this.state.number}</span>
+          <button className="btn btn-primary bi bi-plus-lg" onClick={() => this.increase()}></button>
         </div>
-
       </div>
-    );
+    )
   }
+
 }
 
-export default App;
+export default App
